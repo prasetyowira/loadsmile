@@ -5,10 +5,10 @@ const (
 	//
 	// It identifies the application itself, the actual instance needs to be identified via environment
 	// and other details.
-	appName = "mga"
+	appName = "loadsmile"
 
 	// friendlyAppName is the visible name of the application.
-	friendlyAppName = "Modern Go Application"
+	friendlyAppName = "LoadSmile"
 
 	// envPrefix is prepended to environment variables when processing configuration.
 	envPrefix = "app"

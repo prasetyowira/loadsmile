@@ -1,6 +1,6 @@
 <component name="ProjectRunConfigurationManager">
   <configuration default="false" name="Integration tests" type="GoTestRunConfiguration" factoryName="Go Test">
-    <module name="project" />
+    <module name="loadsmile" />
     <working_directory value="$PROJECT_DIR$/" />
     <go_parameters value="-run ^TestIntegration$" />
     <EXTENSION ID="net.ashald.envfile">

@@ -7,7 +7,7 @@ import (
 	appkitgrpc "github.com/sagikazarmark/appkit/transport/grpc"
 	kitxgrpc "github.com/sagikazarmark/kitx/transport/grpc"
 
-	todov1beta1 "github.com/sagikazarmark/modern-go-application/.gen/api/proto/todo/v1beta1"
+	todov1beta1 "github.com/prasetyowira/loadsmile/.gen/api/proto/todo/v1beta1"
 )
 
 // MakeGRPCServer makes a set of endpoints available as a gRPC server.

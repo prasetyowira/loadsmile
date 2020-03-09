@@ -7,7 +7,7 @@ import (
 
 	"github.com/spf13/cobra"
 
-	todov1beta1 "github.com/sagikazarmark/modern-go-application/.gen/api/proto/todo/v1beta1"
+	todov1beta1 "github.com/prasetyowira/loadsmile/.gen/api/proto/todo/v1beta1"
 )
 
 type markAsDoneOptions struct {

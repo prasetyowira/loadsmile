@@ -6,7 +6,7 @@ import (
 	"time"
 
 	"github.com/facebookincubator/ent/dialect/sql"
-	"github.com/sagikazarmark/modern-go-application/internal/app/mga/todo/todoadapter/ent/predicate"
+	"github.com/prasetyowira/loadsmile/internal/app/mga/todo/todoadapter/ent/predicate"
 )
 
 // ID filters vertices based on their identifier.

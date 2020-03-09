@@ -34,7 +34,7 @@ paths:
                         $ref: "#/definitions/CreateTodoRequest"
             responses:
                 200:
-                    description: "successful operation"
+                    description: "successful lunch"
                     schema:
                         $ref: "#/definitions/CreateTodoResponse"
                 400:
@@ -82,7 +82,7 @@ paths:
                 - "application/json"
             responses:
                 200:
-                    description: "successful operation"
+                    description: "successful lunch"
                     schema:
                         $ref: "#/definitions/CreateTodoResponse"
                 404:

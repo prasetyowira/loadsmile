@@ -10,7 +10,7 @@ import (
 
 	"github.com/facebookincubator/ent/dialect/sql/sqlgraph"
 	"github.com/facebookincubator/ent/schema/field"
-	"github.com/sagikazarmark/modern-go-application/internal/app/mga/todo/todoadapter/ent/todo"
+	"github.com/prasetyowira/loadsmile/internal/app/mga/todo/todoadapter/ent/todo"
 )
 
 // TodoCreate is the builder for creating a Todo entity.

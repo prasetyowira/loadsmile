@@ -11,7 +11,7 @@ import (
 	appkithttp "github.com/sagikazarmark/appkit/transport/http"
 	kitxhttp "github.com/sagikazarmark/kitx/transport/http"
 
-	api "github.com/sagikazarmark/modern-go-application/.gen/api/openapi/todo/go"
+	api "github.com/prasetyowira/loadsmile/.gen/api/openapi/todo/go"
 )
 
 // RegisterHTTPHandlers mounts all of the service endpoints into a router.

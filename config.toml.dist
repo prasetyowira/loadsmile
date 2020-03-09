@@ -26,7 +26,7 @@ enabled = false
 httpAddr = ":8000"
 grpcAddr = ":8001"
 
-storage = "inmemory"
+storage = "database"
 
 [database]
 host = "localhost"

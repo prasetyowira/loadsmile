@@ -8,7 +8,7 @@ import (
 	"time"
 
 	"github.com/facebookincubator/ent/dialect/sql"
-	"github.com/sagikazarmark/modern-go-application/internal/app/mga/todo/todoadapter/ent/todo"
+	"github.com/prasetyowira/loadsmile/internal/app/mga/todo/todoadapter/ent/todo"
 )
 
 // Todo is the model entity for the Todo schema.

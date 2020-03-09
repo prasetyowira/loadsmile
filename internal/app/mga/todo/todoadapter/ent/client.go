@@ -7,9 +7,9 @@ import (
 	"fmt"
 	"log"
 
-	"github.com/sagikazarmark/modern-go-application/internal/app/mga/todo/todoadapter/ent/migrate"
+	"github.com/prasetyowira/loadsmile/internal/app/mga/todo/todoadapter/ent/migrate"
 
-	"github.com/sagikazarmark/modern-go-application/internal/app/mga/todo/todoadapter/ent/todo"
+	"github.com/prasetyowira/loadsmile/internal/app/mga/todo/todoadapter/ent/todo"
 
 	"github.com/facebookincubator/ent/dialect"
 	"github.com/facebookincubator/ent/dialect/sql"

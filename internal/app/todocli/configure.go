@@ -8,8 +8,8 @@ import (
 	"go.opencensus.io/trace"
 	"google.golang.org/grpc"
 
-	todov1beta1 "github.com/sagikazarmark/modern-go-application/.gen/api/proto/todo/v1beta1"
-	"github.com/sagikazarmark/modern-go-application/internal/app/todocli/command"
+	todov1beta1 "github.com/prasetyowira/loadsmile/.gen/api/proto/todo/v1beta1"
+	"github.com/prasetyowira/loadsmile/internal/app/todocli/command"
 )
 
 // Configure configures a root command.

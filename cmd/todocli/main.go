@@ -6,7 +6,7 @@ import (
 
 	"github.com/spf13/cobra"
 
-	"github.com/sagikazarmark/modern-go-application/internal/app/todocli"
+	"github.com/prasetyowira/loadsmile/internal/app/todocli"
 )
 
 func main() {

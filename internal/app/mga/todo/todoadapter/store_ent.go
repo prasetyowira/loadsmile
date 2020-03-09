@@ -5,9 +5,9 @@ import (
 
 	"emperror.dev/errors"
 
-	"github.com/sagikazarmark/modern-go-application/internal/app/mga/todo"
-	"github.com/sagikazarmark/modern-go-application/internal/app/mga/todo/todoadapter/ent"
-	todop "github.com/sagikazarmark/modern-go-application/internal/app/mga/todo/todoadapter/ent/todo"
+	"github.com/prasetyowira/loadsmile/internal/app/mga/todo"
+	"github.com/prasetyowira/loadsmile/internal/app/mga/todo/todoadapter/ent"
+	todop "github.com/prasetyowira/loadsmile/internal/app/mga/todo/todoadapter/ent/todo"
 )
 
 type entStore struct {

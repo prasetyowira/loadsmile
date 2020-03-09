@@ -5,7 +5,7 @@ package todo
 import (
 	"time"
 
-	"github.com/sagikazarmark/modern-go-application/internal/app/mga/todo/todoadapter/ent/schema"
+	"github.com/prasetyowira/loadsmile/internal/app/mga/todo/todoadapter/ent/schema"
 )
 
 const (

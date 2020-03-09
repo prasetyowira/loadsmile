@@ -6,7 +6,7 @@ import (
 	"context"
 
 	"github.com/facebookincubator/ent/dialect"
-	"github.com/sagikazarmark/modern-go-application/internal/app/mga/todo/todoadapter/ent/migrate"
+	"github.com/prasetyowira/loadsmile/internal/app/mga/todo/todoadapter/ent/migrate"
 )
 
 // Tx is a transactional client that is created by calling Client.Tx().

@@ -1,0 +1,141 @@
+swagger: "2.0"
+info:
+    title: "Lunch API"
+    description: "Manage Lunch"
+    version: "1.0.0"
+host: "lunch.api"
+basePath: "/"
+schemes:
+    - "https"
+    - "http"
+
+securityDefinitions:
+    api_key:
+        type: "apiKey"
+        name: "api_key"
+        in: "header"
+
+paths:
+    /lunch:
+        get:
+            summary: "List Recipes for lunch"
+            description: ""
+            operationId: "GetLunch"
+            consumes:
+                - "application/json"
+            produces:
+                - "application/json"
+            responses:
+                200:
+                    description: "ok"
+                    schema:
+                        $ref: "#/definitions/LunchList"
+                500:
+                    description: "unexpected error"
+                    schema:
+                        $ref: "#/definitions/GenericError"
+
+    /recipe:
+        get:
+            summary: "List Recipes"
+            description: ""
+            operationId: "listRecipes"
+            consumes:
+                - "application/json"
+            produces:
+                - "application/json"
+            responses:
+                200:
+                    description: "ok"
+                    schema:
+                        $ref: "#/definitions/RecipeList"
+                500:
+                    description: "unexpected error"
+                    schema:
+                        $ref: "#/definitions/GenericError"
+
+    /recipe/{id}:
+        get:
+            summary: "Get One Recipe by id"
+            description: ""
+            operationId: "GetRecipe"
+            parameters:
+                -
+                    in: path
+                    name: id
+                    type: integer
+                    required: true
+                    description: Numeric ID of the Recipe
+            consumes:
+                - "application/json"
+            produces:
+                - "application/json"
+            responses:
+                200:
+                    description: "ok"
+                    schema:
+                        $ref: "#/definitions/Recipe"
+                404:
+                    description: "not found"
+                    schema:
+                        $ref: "#/definitions/GenericError"
+                500:
+                    description: "unexpected error"
+                    schema:
+                        $ref: "#/definitions/GenericError"
+
+definitions:
+    Ingredient:
+        type: "object"
+        properties:
+            id:
+                type: "string"
+            title:
+                type: "string"
+    Recipe:
+        type: "object"
+        properties:
+            id:
+                type: "string"
+            title:
+                type: "string"
+            ingredients:
+                type: "array"
+                items:
+                    $ref: '#/definitions/Ingredient'
+
+    LunchList:
+        type: "object"
+        properties:
+            recipes:
+                type: "array"
+                items:
+                    $ref: '#/definitions/Recipe'
+
+    RecipeList:
+        type: "object"
+        properties:
+            recipes:
+                type: "array"
+                items:
+                    $ref: '#/definitions/Recipe'
+
+    GenericError:
+        type: "object"
+        properties:
+            type:
+                type: "string"
+            title:
+                type: "string"
+            status:
+                type: "integer"
+            detail:
+                type: "string"
+            instance:
+                type: "string"
+        required:
+            - type
+        example:
+            type: "about:blank"
+            title: "Not Found"
+            status: 404

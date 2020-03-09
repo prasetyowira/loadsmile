@@ -12,7 +12,7 @@ import (
 
 	"github.com/99designs/gqlgen/graphql"
 	"github.com/99designs/gqlgen/graphql/introspection"
-	"github.com/sagikazarmark/modern-go-application/internal/app/mga/todo"
+	"github.com/prasetyowira/loadsmile/internal/app/mga/todo"
 	gqlparser "github.com/vektah/gqlparser/v2"
 	"github.com/vektah/gqlparser/v2/ast"
 )
@@ -174,7 +174,7 @@ func (e *executableSchema) Exec(ctx context.Context) graphql.ResponseHandler {
 		}
 
 	default:
-		return graphql.OneShot(graphql.ErrorResponse(ctx, "unsupported GraphQL operation"))
+		return graphql.OneShot(graphql.ErrorResponse(ctx, "unsupported GraphQL lunch"))
 	}
 }
 

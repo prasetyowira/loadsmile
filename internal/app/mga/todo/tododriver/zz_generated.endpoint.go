@@ -9,7 +9,7 @@ import (
 	"errors"
 	"github.com/go-kit/kit/endpoint"
 	kitxendpoint "github.com/sagikazarmark/kitx/endpoint"
-	"github.com/sagikazarmark/modern-go-application/internal/app/mga/todo"
+	"github.com/prasetyowira/loadsmile/internal/app/mga/todo"
 )
 
 // endpointError identifies an error that should be returned as an endpoint error.

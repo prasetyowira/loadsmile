@@ -9,8 +9,8 @@ import (
 	"github.com/facebookincubator/ent/dialect/sql"
 	"github.com/facebookincubator/ent/dialect/sql/sqlgraph"
 	"github.com/facebookincubator/ent/schema/field"
-	"github.com/sagikazarmark/modern-go-application/internal/app/mga/todo/todoadapter/ent/predicate"
-	"github.com/sagikazarmark/modern-go-application/internal/app/mga/todo/todoadapter/ent/todo"
+	"github.com/prasetyowira/loadsmile/internal/app/mga/todo/todoadapter/ent/predicate"
+	"github.com/prasetyowira/loadsmile/internal/app/mga/todo/todoadapter/ent/todo"
 )
 
 // TodoUpdate is the builder for updating Todo entities.
@@ -62,7 +62,7 @@ func (tu *TodoUpdate) SetUpdatedAt(t time.Time) *TodoUpdate {
 	return tu
 }
 
-// Save executes the query and returns the number of rows/vertices matched by this operation.
+// Save executes the query and returns the number of rows/vertices matched by this lunch.
 func (tu *TodoUpdate) Save(ctx context.Context) (int, error) {
 	if tu.updated_at == nil {
 		v := todo.UpdateDefaultUpdatedAt()

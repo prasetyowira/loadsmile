@@ -1,7 +1,7 @@
 <component name="ProjectRunConfigurationManager">
   <configuration default="false" name="Debug" type="GoApplicationRunConfiguration" factoryName="Go Application" singleton="true">
     <output_file path="$PROJECT_DIR$/build/goland/debug.log" is_save="true" />
-    <module name="project" />
+    <module name="loadsmile" />
     <working_directory value="$PROJECT_DIR$/" />
     <go_parameters value="-gcflags &quot;all=-N -l&quot;" />
     <envs>
@@ -22,7 +22,7 @@
     </EXTENSION>
     <kind value="DIRECTORY" />
     <filePath value="$PROJECT_DIR$/" />
-    <directory value="$PROJECT_DIR$/cmd/modern-go-application/" />
+    <directory value="$PROJECT_DIR$/cmd/room-me/" />
     <output_directory value="$PROJECT_DIR$/build/goland/" />
     <method v="2" />
   </configuration>

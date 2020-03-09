@@ -1,0 +1,174 @@
+openapi: 3.0.1
+info:
+  description: Manage Lunch
+  title: Lunch API
+  version: 1.0.0
+servers:
+- url: https://lunch.api/
+- url: http://lunch.api/
+paths:
+  /lunch:
+    get:
+      operationId: GetLunch
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LunchList'
+          description: ok
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericError'
+          description: unexpected error
+      summary: List Recipes for lunch
+  /recipe:
+    get:
+      operationId: listRecipes
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RecipeList'
+          description: ok
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericError'
+          description: unexpected error
+      summary: List Recipes
+  /recipe/{id}:
+    get:
+      operationId: GetRecipe
+      parameters:
+      - description: Numeric ID of the Recipe
+        in: path
+        name: id
+        required: true
+        schema:
+          type: integer
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Recipe'
+          description: ok
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericError'
+          description: not found
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericError'
+          description: unexpected error
+      summary: Get One Recipe by id
+components:
+  schemas:
+    Ingredient:
+      example:
+        id: id
+        title: title
+      properties:
+        id:
+          type: string
+        title:
+          type: string
+      type: object
+    Recipe:
+      example:
+        ingredients:
+        - id: id
+          title: title
+        - id: id
+          title: title
+        id: id
+        title: title
+      properties:
+        id:
+          type: string
+        title:
+          type: string
+        ingredients:
+          items:
+            $ref: '#/components/schemas/Ingredient'
+          type: array
+      type: object
+    LunchList:
+      example:
+        recipes:
+        - ingredients:
+          - id: id
+            title: title
+          - id: id
+            title: title
+          id: id
+          title: title
+        - ingredients:
+          - id: id
+            title: title
+          - id: id
+            title: title
+          id: id
+          title: title
+      properties:
+        recipes:
+          items:
+            $ref: '#/components/schemas/Recipe'
+          type: array
+      type: object
+    RecipeList:
+      example:
+        recipes:
+        - ingredients:
+          - id: id
+            title: title
+          - id: id
+            title: title
+          id: id
+          title: title
+        - ingredients:
+          - id: id
+            title: title
+          - id: id
+            title: title
+          id: id
+          title: title
+      properties:
+        recipes:
+          items:
+            $ref: '#/components/schemas/Recipe'
+          type: array
+      type: object
+    GenericError:
+      example:
+        type: about:blank
+        title: Not Found
+        status: 404
+      properties:
+        type:
+          type: string
+        title:
+          type: string
+        status:
+          type: integer
+        detail:
+          type: string
+        instance:
+          type: string
+      required:
+      - type
+      type: object
+  securitySchemes:
+    api_key:
+      in: header
+      name: api_key
+      type: apiKey

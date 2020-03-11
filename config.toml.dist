@@ -32,6 +32,6 @@ storage = "database"
 host = "localhost"
 port = 3306
 user = "root"
-pass = ""
+pass = "root"
 name = "app"
 params = { collation = "utf8mb4_general_ci" }

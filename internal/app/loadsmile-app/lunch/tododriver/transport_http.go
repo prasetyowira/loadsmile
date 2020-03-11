@@ -11,7 +11,7 @@ import (
 	appkithttp "github.com/sagikazarmark/appkit/transport/http"
 	kitxhttp "github.com/sagikazarmark/kitx/transport/http"
 
-	api "github.com/prasetyowira/loadsmile/.gen/api/openapi/todo/go"
+	api "github.com/prasetyowira/loadsmile/.gen/api/openapi/lunch/go"
 )
 
 // RegisterHTTPHandlers mounts all of the service endpoints into a router.
@@ -77,15 +77,22 @@ func decodeListBuildingsHTTPRequest(_ context.Context, r *http.Request) (interfa
 // }
 
 func encodeListRecipesHTTPResponse(ctx context.Context, w http.ResponseWriter, response interface{}) error {
-	resp := response.(ListBuildingsResponse)
+	resp := response.(ListRecipesResponse)
 
-	apiResponse := api.TodoList{}
+	apiResponse := api.RecipeList{}
 
-	for _, todo := range resp.Todos {
-		apiResponse.Todos = append(apiResponse.Todos, api.Todo{
-			Id:   todo.ID,
-			Text: todo.Text,
-			Done: todo.Done,
+	for _, recipe := range resp.Recipes {
+		var listIngredients []api.Ingredient
+		for _, ingredient := range recipe.Edges.Ingredients {
+			listIngredients = append(listIngredients, api.Ingredient{
+				Id:    ingredient.UID,
+				Title: ingredient.Title,
+			})
+		}
+		apiResponse.Recipes = append(apiResponse.Recipes, api.Recipe{
+			Id:   			string(recipe.ID),
+			Title:			recipe.Title,
+			Ingredients: 	listIngredients,
 		})
 	}
 

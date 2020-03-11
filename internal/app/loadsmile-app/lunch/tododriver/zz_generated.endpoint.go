@@ -7,9 +7,12 @@ package tododriver
 import (
 	"context"
 	"errors"
+
 	"github.com/go-kit/kit/endpoint"
 	kitxendpoint "github.com/sagikazarmark/kitx/endpoint"
+
 	"github.com/prasetyowira/loadsmile/internal/app/loadsmile-app/lunch"
+	"github.com/prasetyowira/loadsmile/internal/app/loadsmile-app/lunch/lunchadapter/ent"
 )
 
 // endpointError identifies an error that should be returned as an endpoint error.
@@ -155,41 +158,41 @@ func MakeMarkAsDoneEndpoint(service todo.Service) endpoint.Endpoint {
 
 
 // ListTodosRequest is a request struct for ListTodos endpoint.
-type ListBuildingsRequest struct{
+type ListRecipesRequest struct{
 	Limit	string
 	Offset	string
 	Search 	string
 }
 
 // ListTodosResponse is a response struct for ListTodos endpoint.
-type ListBuildingsResponse struct {
-	Buildings 	[]lunch.Building
+type ListRecipesResponse struct {
+	Recipes 	[]ent.Recipe
 	Err			error
 }
 
-func (r ListBuildingsResponse) Failed() error {
+func (r ListRecipesResponse) Failed() error {
 	return r.Err
 }
 
 // MakeListTodosEndpoint returns an endpoint for the matching method of the underlying service.
-func MakeListBuildingsEndpoint(service lunch.Service) endpoint.Endpoint {
+func MakeListRecipesEndpoint(service lunch.Service) endpoint.Endpoint {
 	return func(ctx context.Context, request interface{}) (interface{}, error) {
-		buildings, err := service.ListBuildings(ctx)
+		recipes, err := service.ListRecipes(ctx)
 
 		if err != nil {
 			if serviceErr := serviceError(nil); errors.As(err, &serviceErr) && serviceErr.ServiceError() {
-				return ListBuildingsResponse{
+				return ListRecipesResponse{
 					Err:   err,
-					Buildings: buildings,
+					Recipes: recipes,
 				}, nil
 			}
 
-			return ListBuildingsResponse{
+			return ListRecipesResponse{
 				Err:   err,
-				Buildings: buildings,
+				Recipes: recipes,
 			}, err
 		}
 
-		return ListBuildingsResponse{Buildings: buildings}, nil
+		return ListRecipesResponse{Recipes: recipes}, nil
 	}
 }

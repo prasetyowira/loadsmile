@@ -23,7 +23,7 @@ type IngredientCreate struct {
 	use_by      *time.Time
 	created_at  *time.Time
 	updated_at  *time.Time
-	recipes     map[int]struct{}
+	recipes     map[int64]struct{}
 }
 
 // SetUID sets the uid field.
@@ -87,9 +87,9 @@ func (ic *IngredientCreate) SetNillableUpdatedAt(t *time.Time) *IngredientCreate
 }
 
 // AddRecipeIDs adds the recipes edge to Recipe by ids.
-func (ic *IngredientCreate) AddRecipeIDs(ids ...int) *IngredientCreate {
+func (ic *IngredientCreate) AddRecipeIDs(ids ...int64) *IngredientCreate {
 	if ic.recipes == nil {
-		ic.recipes = make(map[int]struct{})
+		ic.recipes = make(map[int64]struct{})
 	}
 	for i := range ids {
 		ic.recipes[ids[i]] = struct{}{}
@@ -99,7 +99,7 @@ func (ic *IngredientCreate) AddRecipeIDs(ids ...int) *IngredientCreate {
 
 // AddRecipes adds the recipes edges to Recipe.
 func (ic *IngredientCreate) AddRecipes(r ...*Recipe) *IngredientCreate {
-	ids := make([]int, len(r))
+	ids := make([]int64, len(r))
 	for i := range r {
 		ids[i] = r[i].ID
 	}
@@ -146,7 +146,7 @@ func (ic *IngredientCreate) sqlSave(ctx context.Context) (*Ingredient, error) {
 		_spec = &sqlgraph.CreateSpec{
 			Table: ingredient.Table,
 			ID: &sqlgraph.FieldSpec{
-				Type:   field.TypeInt,
+				Type:   field.TypeInt64,
 				Column: ingredient.FieldID,
 			},
 		}
@@ -208,7 +208,7 @@ func (ic *IngredientCreate) sqlSave(ctx context.Context) (*Ingredient, error) {
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
 				IDSpec: &sqlgraph.FieldSpec{
-					Type:   field.TypeInt,
+					Type:   field.TypeInt64,
 					Column: recipe.FieldID,
 				},
 			},
@@ -225,6 +225,6 @@ func (ic *IngredientCreate) sqlSave(ctx context.Context) (*Ingredient, error) {
 		return nil, err
 	}
 	id := _spec.ID.Value.(int64)
-	i.ID = int(id)
+	i.ID = int64(id)
 	return i, nil
 }

@@ -28,30 +28,13 @@ import (
 
 // Service manages a list of todos.
 type Service interface {
-	// CreateTodo adds a new todo to the todo list.
-	// CreateTodo(ctx context.Context, text string) (id string, err error)
-
-	// ListTodos returns the list of todos.
-	// ListTodos(ctx context.Context) (todos []Todo, err error)
-
-	// MarkAsDone marks a todo as done.
-	// MarkAsDone(ctx context.Context, id string) error
-
-	// ListBuildings returns the list of buildings.
-	ListRecipes(ctx context.Context) (recipes []*ent.Recipe, err error)
+	ListRecipes(ctx context.Context, args interface{}) (recipes []*ent.Recipe, err error)
 	GetLunch(ctx context.Context) ([]*ent.Recipe, error)
 	GetRecipe(ctx context.Context, id string) (*ent.Recipe, error)
 }
 
 type service struct {
-	idgenerator IDGenerator
 	store       Store
-}
-
-// IDGenerator generates a new ID.
-type IDGenerator interface {
-	// Generate generates a new ID.
-	Generate() (string, error)
 }
 
 // Store provides todo persistence.
@@ -60,10 +43,10 @@ type Store interface {
 	// Store(ctx context.Context, todo Todo) error
 
 	// All returns all todos.
-	All(ctx context.Context) ([]*ent.Recipe, error)
+	AllRecipes(ctx context.Context, args interface{}) ([]*ent.Recipe, error)
 
 	// Get returns a single todo by its ID.
-	Get(ctx context.Context, id string) (*ent.Recipe, error)
+	GetRecipe(ctx context.Context, id string) (*ent.Recipe, error)
 
 	GetLunch(ctx context.Context) ([]*ent.Recipe, error)
 }
@@ -96,9 +79,8 @@ func (NotFoundError) ServiceError() bool {
 }
 
 // NewService returns a new Service.
-func NewService(idgenerator IDGenerator, store Store) Service {
+func NewService(store Store) Service {
 	return &service{
-		idgenerator: idgenerator,
 		store:       store,
 	}
 }
@@ -127,8 +109,8 @@ func (validationError) ServiceError() bool {
 	return true
 }
 
-func (s service) ListRecipes(ctx context.Context) ([]*ent.Recipe, error) {
-	return s.store.All(ctx)
+func (s service) ListRecipes(ctx context.Context, args interface{}) ([]*ent.Recipe, error) {
+	return s.store.AllRecipes(ctx, args)
 }
 
 func (s service) GetLunch(ctx context.Context) ([]*ent.Recipe, error) {
@@ -136,7 +118,7 @@ func (s service) GetLunch(ctx context.Context) ([]*ent.Recipe, error) {
 }
 
 func (s service) GetRecipe(ctx context.Context, id string) (*ent.Recipe, error) {
-	recipe, err := s.store.Get(ctx, id)
+	recipe, err := s.store.GetRecipe(ctx, id)
 	if err != nil {
 		return nil, errors.WithMessage(err, "failed to mark todo as done")
 	}

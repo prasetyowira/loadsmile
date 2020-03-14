@@ -15,7 +15,7 @@ import (
 type Recipe struct {
 	config `json:"-"`
 	// ID of the ent.
-	ID int `json:"id,omitempty"`
+	ID int64 `json:"id,omitempty"`
 	// UID holds the value of the "uid" field.
 	UID string `json:"uid,omitempty"`
 	// Title holds the value of the "title" field.
@@ -68,7 +68,7 @@ func (r *Recipe) assignValues(values ...interface{}) error {
 	if !ok {
 		return fmt.Errorf("unexpected type %T for field id", value)
 	}
-	r.ID = int(value.Int64)
+	r.ID = int64(value.Int64)
 	values = values[1:]
 	if value, ok := values[0].(*sql.NullString); !ok {
 		return fmt.Errorf("unexpected type %T for field uid", values[0])
@@ -95,14 +95,14 @@ func (r *Recipe) assignValues(values ...interface{}) error {
 
 // QueryIngredients queries the ingredients edge of the Recipe.
 func (r *Recipe) QueryIngredients() *IngredientQuery {
-	return (&RecipeClient{config: r.config}).QueryIngredients(r)
+	return (&RecipeClient{r.config}).QueryIngredients(r)
 }
 
 // Update returns a builder for updating this Recipe.
 // Note that, you need to call Recipe.Unwrap() before calling this method, if this Recipe
 // was returned from a transaction, and the transaction was committed or rolled back.
 func (r *Recipe) Update() *RecipeUpdateOne {
-	return (&RecipeClient{config: r.config}).UpdateOne(r)
+	return (&RecipeClient{r.config}).UpdateOne(r)
 }
 
 // Unwrap unwraps the entity that was returned from a transaction after it was closed,

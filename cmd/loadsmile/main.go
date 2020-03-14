@@ -36,11 +36,13 @@ import (
 	"go.opencensus.io/stats/view"
 	"go.opencensus.io/trace"
 	"go.opencensus.io/zpages"
-	"google.golang.org/grpc"
+	// "google.golang.org/grpc"
 	"logur.dev/logur"
 
-	"github.com/prasetyowira/loadsmile/internal/app/mga"
-	"github.com/prasetyowira/loadsmile/internal/app/mga/todo/tododriver"
+	// "github.com/prasetyowira/loadsmile/internal/app/mga"
+	// "github.com/prasetyowira/loadsmile/internal/app/mga/todo/tododriver"
+	"github.com/prasetyowira/loadsmile/internal/app/loadsmile-app"
+	// "github.com/prasetyowira/loadsmile/internal/app/loadsmile-app/lunch/lunchdriver"
 	"github.com/prasetyowira/loadsmile/internal/common/commonadapter"
 	"github.com/prasetyowira/loadsmile/internal/platform/appkit"
 	"github.com/prasetyowira/loadsmile/internal/platform/buildinfo"
@@ -264,9 +266,6 @@ func main() {
 		ocgrpc.ServerLatencyView,
 		ocgrpc.ServerCompletedRPCsView,
 
-		// Todo
-		tododriver.CreatedTodoCountView,
-		tododriver.DoneTodoCountView,
 	)
 	emperror.Panic(errors.Wrap(err, "failed to register stat views"))
 
@@ -291,14 +290,14 @@ func main() {
 		}
 		defer httpServer.Close()
 
-		grpcServer := grpc.NewServer(grpc.StatsHandler(&ocgrpc.ServerHandler{
-			StartOptions: trace.StartOptions{
-				Sampler:  trace.AlwaysSample(),
-				SpanKind: trace.SpanKindServer,
-			},
-			IsPublicEndpoint: true,
-		}))
-		defer grpcServer.Stop()
+		// grpcServer := grpc.NewServer(grpc.StatsHandler(&ocgrpc.ServerHandler{
+		// 	StartOptions: trace.StartOptions{
+		// 		Sampler:  trace.AlwaysSample(),
+		// 		SpanKind: trace.SpanKindServer,
+		// 	},
+		// 	IsPublicEndpoint: true,
+		// }))
+		// defer grpcServer.Stop()
 
 		// In larger apps, this should be split up into smaller functions
 		{
@@ -308,15 +307,15 @@ func main() {
 				appkiterrors.IsServiceError, // filter out service errors
 			)
 
-			mga.InitializeApp(httpRouter, grpcServer, publisher, config.App.Storage, db, logger, errorHandler)
+			loadsmile_app.InitializeApp(httpRouter, db, logger, errorHandler)
 
-			h, err := watermill.NewRouter(config.Watermill.RouterConfig, logger)
-			emperror.Panic(err)
+			// h, err := watermill.NewRouter(config.Watermill.RouterConfig, logger)
+			// emperror.Panic(err)
 
-			err = mga.RegisterEventHandlers(h, subscriber, logger)
-			emperror.Panic(err)
+			// err = mga.RegisterEventHandlers(h, subscriber, logger)
+			// emperror.Panic(err)
 
-			group.Add(func() error { return h.Run(context.Background()) }, func(e error) { _ = h.Close() })
+			// group.Add(func() error { return h.Run(context.Background()) }, func(e error) { _ = h.Close() })
 		}
 
 		logger.Info("listening on address", map[string]interface{}{"address": config.App.HttpAddr})
@@ -326,11 +325,11 @@ func main() {
 
 		logger.Info("listening on address", map[string]interface{}{"address": config.App.GrpcAddr})
 
-		grpcLn, err := upg.Fds.Listen("tcp", config.App.GrpcAddr)
-		emperror.Panic(err)
+		// grpcLn, err := upg.Fds.Listen("tcp", config.App.GrpcAddr)
+		// emperror.Panic(err)
 
 		group.Add(appkitrun.LogServe(logger)(appkitrun.HTTPServe(httpServer, httpLn, config.ShutdownTimeout)))
-		group.Add(appkitrun.LogServe(logger)(appkitrun.GRPCServe(grpcServer, grpcLn)))
+		// group.Add(appkitrun.LogServe(logger)(appkitrun.GRPCServe(grpcServer, grpcLn)))
 	}
 
 	// Setup signal handler

@@ -21,8 +21,8 @@ type RecipeUpdate struct {
 	title              *string
 	created_at         *time.Time
 	updated_at         *time.Time
-	ingredients        map[int]struct{}
-	removedIngredients map[int]struct{}
+	ingredients        map[int64]struct{}
+	removedIngredients map[int64]struct{}
 	predicates         []predicate.Recipe
 }
 
@@ -59,9 +59,9 @@ func (ru *RecipeUpdate) SetUpdatedAt(t time.Time) *RecipeUpdate {
 }
 
 // AddIngredientIDs adds the ingredients edge to Ingredient by ids.
-func (ru *RecipeUpdate) AddIngredientIDs(ids ...int) *RecipeUpdate {
+func (ru *RecipeUpdate) AddIngredientIDs(ids ...int64) *RecipeUpdate {
 	if ru.ingredients == nil {
-		ru.ingredients = make(map[int]struct{})
+		ru.ingredients = make(map[int64]struct{})
 	}
 	for i := range ids {
 		ru.ingredients[ids[i]] = struct{}{}
@@ -71,7 +71,7 @@ func (ru *RecipeUpdate) AddIngredientIDs(ids ...int) *RecipeUpdate {
 
 // AddIngredients adds the ingredients edges to Ingredient.
 func (ru *RecipeUpdate) AddIngredients(i ...*Ingredient) *RecipeUpdate {
-	ids := make([]int, len(i))
+	ids := make([]int64, len(i))
 	for j := range i {
 		ids[j] = i[j].ID
 	}
@@ -79,9 +79,9 @@ func (ru *RecipeUpdate) AddIngredients(i ...*Ingredient) *RecipeUpdate {
 }
 
 // RemoveIngredientIDs removes the ingredients edge to Ingredient by ids.
-func (ru *RecipeUpdate) RemoveIngredientIDs(ids ...int) *RecipeUpdate {
+func (ru *RecipeUpdate) RemoveIngredientIDs(ids ...int64) *RecipeUpdate {
 	if ru.removedIngredients == nil {
-		ru.removedIngredients = make(map[int]struct{})
+		ru.removedIngredients = make(map[int64]struct{})
 	}
 	for i := range ids {
 		ru.removedIngredients[ids[i]] = struct{}{}
@@ -91,7 +91,7 @@ func (ru *RecipeUpdate) RemoveIngredientIDs(ids ...int) *RecipeUpdate {
 
 // RemoveIngredients removes ingredients edges to Ingredient.
 func (ru *RecipeUpdate) RemoveIngredients(i ...*Ingredient) *RecipeUpdate {
-	ids := make([]int, len(i))
+	ids := make([]int64, len(i))
 	for j := range i {
 		ids[j] = i[j].ID
 	}
@@ -135,7 +135,7 @@ func (ru *RecipeUpdate) sqlSave(ctx context.Context) (n int, err error) {
 			Table:   recipe.Table,
 			Columns: recipe.Columns,
 			ID: &sqlgraph.FieldSpec{
-				Type:   field.TypeInt,
+				Type:   field.TypeInt64,
 				Column: recipe.FieldID,
 			},
 		},
@@ -177,7 +177,7 @@ func (ru *RecipeUpdate) sqlSave(ctx context.Context) (n int, err error) {
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
 				IDSpec: &sqlgraph.FieldSpec{
-					Type:   field.TypeInt,
+					Type:   field.TypeInt64,
 					Column: ingredient.FieldID,
 				},
 			},
@@ -196,7 +196,7 @@ func (ru *RecipeUpdate) sqlSave(ctx context.Context) (n int, err error) {
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
 				IDSpec: &sqlgraph.FieldSpec{
-					Type:   field.TypeInt,
+					Type:   field.TypeInt64,
 					Column: ingredient.FieldID,
 				},
 			},
@@ -207,9 +207,7 @@ func (ru *RecipeUpdate) sqlSave(ctx context.Context) (n int, err error) {
 		_spec.Edges.Add = append(_spec.Edges.Add, edge)
 	}
 	if n, err = sqlgraph.UpdateNodes(ctx, ru.driver, _spec); err != nil {
-		if _, ok := err.(*sqlgraph.NotFoundError); ok {
-			err = &NotFoundError{recipe.Label}
-		} else if cerr, ok := isSQLConstraintError(err); ok {
+		if cerr, ok := isSQLConstraintError(err); ok {
 			err = cerr
 		}
 		return 0, err
@@ -220,13 +218,13 @@ func (ru *RecipeUpdate) sqlSave(ctx context.Context) (n int, err error) {
 // RecipeUpdateOne is the builder for updating a single Recipe entity.
 type RecipeUpdateOne struct {
 	config
-	id int
+	id int64
 
 	title              *string
 	created_at         *time.Time
 	updated_at         *time.Time
-	ingredients        map[int]struct{}
-	removedIngredients map[int]struct{}
+	ingredients        map[int64]struct{}
+	removedIngredients map[int64]struct{}
 }
 
 // SetTitle sets the title field.
@@ -256,9 +254,9 @@ func (ruo *RecipeUpdateOne) SetUpdatedAt(t time.Time) *RecipeUpdateOne {
 }
 
 // AddIngredientIDs adds the ingredients edge to Ingredient by ids.
-func (ruo *RecipeUpdateOne) AddIngredientIDs(ids ...int) *RecipeUpdateOne {
+func (ruo *RecipeUpdateOne) AddIngredientIDs(ids ...int64) *RecipeUpdateOne {
 	if ruo.ingredients == nil {
-		ruo.ingredients = make(map[int]struct{})
+		ruo.ingredients = make(map[int64]struct{})
 	}
 	for i := range ids {
 		ruo.ingredients[ids[i]] = struct{}{}
@@ -268,7 +266,7 @@ func (ruo *RecipeUpdateOne) AddIngredientIDs(ids ...int) *RecipeUpdateOne {
 
 // AddIngredients adds the ingredients edges to Ingredient.
 func (ruo *RecipeUpdateOne) AddIngredients(i ...*Ingredient) *RecipeUpdateOne {
-	ids := make([]int, len(i))
+	ids := make([]int64, len(i))
 	for j := range i {
 		ids[j] = i[j].ID
 	}
@@ -276,9 +274,9 @@ func (ruo *RecipeUpdateOne) AddIngredients(i ...*Ingredient) *RecipeUpdateOne {
 }
 
 // RemoveIngredientIDs removes the ingredients edge to Ingredient by ids.
-func (ruo *RecipeUpdateOne) RemoveIngredientIDs(ids ...int) *RecipeUpdateOne {
+func (ruo *RecipeUpdateOne) RemoveIngredientIDs(ids ...int64) *RecipeUpdateOne {
 	if ruo.removedIngredients == nil {
-		ruo.removedIngredients = make(map[int]struct{})
+		ruo.removedIngredients = make(map[int64]struct{})
 	}
 	for i := range ids {
 		ruo.removedIngredients[ids[i]] = struct{}{}
@@ -288,7 +286,7 @@ func (ruo *RecipeUpdateOne) RemoveIngredientIDs(ids ...int) *RecipeUpdateOne {
 
 // RemoveIngredients removes ingredients edges to Ingredient.
 func (ruo *RecipeUpdateOne) RemoveIngredients(i ...*Ingredient) *RecipeUpdateOne {
-	ids := make([]int, len(i))
+	ids := make([]int64, len(i))
 	for j := range i {
 		ids[j] = i[j].ID
 	}
@@ -333,7 +331,7 @@ func (ruo *RecipeUpdateOne) sqlSave(ctx context.Context) (r *Recipe, err error) 
 			Columns: recipe.Columns,
 			ID: &sqlgraph.FieldSpec{
 				Value:  ruo.id,
-				Type:   field.TypeInt,
+				Type:   field.TypeInt64,
 				Column: recipe.FieldID,
 			},
 		},
@@ -368,7 +366,7 @@ func (ruo *RecipeUpdateOne) sqlSave(ctx context.Context) (r *Recipe, err error) 
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
 				IDSpec: &sqlgraph.FieldSpec{
-					Type:   field.TypeInt,
+					Type:   field.TypeInt64,
 					Column: ingredient.FieldID,
 				},
 			},
@@ -387,7 +385,7 @@ func (ruo *RecipeUpdateOne) sqlSave(ctx context.Context) (r *Recipe, err error) 
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
 				IDSpec: &sqlgraph.FieldSpec{
-					Type:   field.TypeInt,
+					Type:   field.TypeInt64,
 					Column: ingredient.FieldID,
 				},
 			},
@@ -401,9 +399,7 @@ func (ruo *RecipeUpdateOne) sqlSave(ctx context.Context) (r *Recipe, err error) 
 	_spec.Assign = r.assignValues
 	_spec.ScanValues = r.scanValues()
 	if err = sqlgraph.UpdateNode(ctx, ruo.driver, _spec); err != nil {
-		if _, ok := err.(*sqlgraph.NotFoundError); ok {
-			err = &NotFoundError{recipe.Label}
-		} else if cerr, ok := isSQLConstraintError(err); ok {
+		if cerr, ok := isSQLConstraintError(err); ok {
 			err = cerr
 		}
 		return nil, err

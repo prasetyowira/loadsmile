@@ -11,7 +11,7 @@ package api
 
 type Recipe struct {
 
-	Id string `json:"id,omitempty"`
+	Id int64 `json:"id,omitempty"`
 
 	Title string `json:"title,omitempty"`
 

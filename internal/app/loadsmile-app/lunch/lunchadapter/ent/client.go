@@ -124,7 +124,7 @@ func (c *IngredientClient) UpdateOne(i *Ingredient) *IngredientUpdateOne {
 }
 
 // UpdateOneID returns an update builder for the given id.
-func (c *IngredientClient) UpdateOneID(id int) *IngredientUpdateOne {
+func (c *IngredientClient) UpdateOneID(id int64) *IngredientUpdateOne {
 	return &IngredientUpdateOne{config: c.config, id: id}
 }
 
@@ -139,7 +139,7 @@ func (c *IngredientClient) DeleteOne(i *Ingredient) *IngredientDeleteOne {
 }
 
 // DeleteOneID returns a delete builder for the given id.
-func (c *IngredientClient) DeleteOneID(id int) *IngredientDeleteOne {
+func (c *IngredientClient) DeleteOneID(id int64) *IngredientDeleteOne {
 	return &IngredientDeleteOne{c.Delete().Where(ingredient.ID(id))}
 }
 
@@ -149,12 +149,12 @@ func (c *IngredientClient) Query() *IngredientQuery {
 }
 
 // Get returns a Ingredient entity by its id.
-func (c *IngredientClient) Get(ctx context.Context, id int) (*Ingredient, error) {
+func (c *IngredientClient) Get(ctx context.Context, id int64) (*Ingredient, error) {
 	return c.Query().Where(ingredient.ID(id)).Only(ctx)
 }
 
 // GetX is like Get, but panics if an error occurs.
-func (c *IngredientClient) GetX(ctx context.Context, id int) *Ingredient {
+func (c *IngredientClient) GetX(ctx context.Context, id int64) *Ingredient {
 	i, err := c.Get(ctx, id)
 	if err != nil {
 		panic(err)
@@ -202,7 +202,7 @@ func (c *RecipeClient) UpdateOne(r *Recipe) *RecipeUpdateOne {
 }
 
 // UpdateOneID returns an update builder for the given id.
-func (c *RecipeClient) UpdateOneID(id int) *RecipeUpdateOne {
+func (c *RecipeClient) UpdateOneID(id int64) *RecipeUpdateOne {
 	return &RecipeUpdateOne{config: c.config, id: id}
 }
 
@@ -217,7 +217,7 @@ func (c *RecipeClient) DeleteOne(r *Recipe) *RecipeDeleteOne {
 }
 
 // DeleteOneID returns a delete builder for the given id.
-func (c *RecipeClient) DeleteOneID(id int) *RecipeDeleteOne {
+func (c *RecipeClient) DeleteOneID(id int64) *RecipeDeleteOne {
 	return &RecipeDeleteOne{c.Delete().Where(recipe.ID(id))}
 }
 
@@ -227,12 +227,12 @@ func (c *RecipeClient) Query() *RecipeQuery {
 }
 
 // Get returns a Recipe entity by its id.
-func (c *RecipeClient) Get(ctx context.Context, id int) (*Recipe, error) {
+func (c *RecipeClient) Get(ctx context.Context, id int64) (*Recipe, error) {
 	return c.Query().Where(recipe.ID(id)).Only(ctx)
 }
 
 // GetX is like Get, but panics if an error occurs.
-func (c *RecipeClient) GetX(ctx context.Context, id int) *Recipe {
+func (c *RecipeClient) GetX(ctx context.Context, id int64) *Recipe {
 	r, err := c.Get(ctx, id)
 	if err != nil {
 		panic(err)

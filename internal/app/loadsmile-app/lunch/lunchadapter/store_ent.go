@@ -2,11 +2,14 @@ package lunchadapter
 
 import (
 	"context"
+	"fmt"
 
 	"emperror.dev/errors"
 
 	"github.com/prasetyowira/loadsmile/internal/app/loadsmile-app/lunch"
 	"github.com/prasetyowira/loadsmile/internal/app/loadsmile-app/lunch/lunchadapter/ent"
+	"github.com/prasetyowira/loadsmile/internal/app/loadsmile-app/lunch/lunchdriver"
+
 	// ingredient "github.com/prasetyowira/loadsmile/internal/app/loadsmile-app/lunch/lunchadapter/ent/ingredient"
 	recipeP "github.com/prasetyowira/loadsmile/internal/app/loadsmile-app/lunch/lunchadapter/ent/recipe"
 )
@@ -51,7 +54,15 @@ func NewEntStore(client *ent.Client) lunch.Store {
 // 	return nil
 // }
 
-func (s entStore) All(ctx context.Context) ([]*ent.Recipe, error) {
+type ListRecipesArgs struct{
+	Limit	string
+	Offset	string
+	Search 	string
+}
+
+func (s entStore) AllRecipes(ctx context.Context, args interface{}) ([]*ent.Recipe, error) {
+	queryArgs := args.(lunchdriver.ListRecipesRequest)
+	fmt.Println(queryArgs)
 	recipeDatum, err := s.client.Recipe.Query().WithIngredients().All(ctx)
 	if err != nil {
 		return nil, err
@@ -69,7 +80,7 @@ func (s entStore) GetLunch(ctx context.Context) ([]*ent.Recipe, error) {
 	return recipeDatum, nil
 }
 
-func (s entStore) Get(ctx context.Context, id string) (*ent.Recipe, error) {
+func (s entStore) GetRecipe(ctx context.Context, id string) (*ent.Recipe, error) {
 	recipeModel, err := s.client.Recipe.Query().Where(recipeP.UID(id)).First(ctx)
 	if ent.IsNotFound(err) {
 		return nil, errors.WithStack(lunch.NotFoundError{ID: id})

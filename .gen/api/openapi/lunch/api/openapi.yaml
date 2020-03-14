@@ -75,26 +75,28 @@ components:
   schemas:
     Ingredient:
       example:
-        id: id
+        id: 6
         title: title
       properties:
         id:
-          type: string
+          format: int64
+          type: integer
         title:
           type: string
       type: object
     Recipe:
       example:
         ingredients:
-        - id: id
+        - id: 6
           title: title
-        - id: id
+        - id: 6
           title: title
-        id: id
+        id: 0
         title: title
       properties:
         id:
-          type: string
+          format: int64
+          type: integer
         title:
           type: string
         ingredients:
@@ -106,18 +108,18 @@ components:
       example:
         recipes:
         - ingredients:
-          - id: id
+          - id: 6
             title: title
-          - id: id
+          - id: 6
             title: title
-          id: id
+          id: 0
           title: title
         - ingredients:
-          - id: id
+          - id: 6
             title: title
-          - id: id
+          - id: 6
             title: title
-          id: id
+          id: 0
           title: title
       properties:
         recipes:
@@ -129,18 +131,18 @@ components:
       example:
         recipes:
         - ingredients:
-          - id: id
+          - id: 6
             title: title
-          - id: id
+          - id: 6
             title: title
-          id: id
+          id: 0
           title: title
         - ingredients:
-          - id: id
+          - id: 6
             title: title
-          - id: id
+          - id: 6
             title: title
-          id: id
+          id: 0
           title: title
       properties:
         recipes:

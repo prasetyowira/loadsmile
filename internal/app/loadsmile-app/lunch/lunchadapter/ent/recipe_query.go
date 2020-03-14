@@ -89,8 +89,8 @@ func (rq *RecipeQuery) FirstX(ctx context.Context) *Recipe {
 }
 
 // FirstID returns the first Recipe id in the query. Returns *NotFoundError when no id was found.
-func (rq *RecipeQuery) FirstID(ctx context.Context) (id int, err error) {
-	var ids []int
+func (rq *RecipeQuery) FirstID(ctx context.Context) (id int64, err error) {
+	var ids []int64
 	if ids, err = rq.Limit(1).IDs(ctx); err != nil {
 		return
 	}
@@ -102,7 +102,7 @@ func (rq *RecipeQuery) FirstID(ctx context.Context) (id int, err error) {
 }
 
 // FirstXID is like FirstID, but panics if an error occurs.
-func (rq *RecipeQuery) FirstXID(ctx context.Context) int {
+func (rq *RecipeQuery) FirstXID(ctx context.Context) int64 {
 	id, err := rq.FirstID(ctx)
 	if err != nil && !IsNotFound(err) {
 		panic(err)
@@ -136,8 +136,8 @@ func (rq *RecipeQuery) OnlyX(ctx context.Context) *Recipe {
 }
 
 // OnlyID returns the only Recipe id in the query, returns an error if not exactly one id was returned.
-func (rq *RecipeQuery) OnlyID(ctx context.Context) (id int, err error) {
-	var ids []int
+func (rq *RecipeQuery) OnlyID(ctx context.Context) (id int64, err error) {
+	var ids []int64
 	if ids, err = rq.Limit(2).IDs(ctx); err != nil {
 		return
 	}
@@ -153,7 +153,7 @@ func (rq *RecipeQuery) OnlyID(ctx context.Context) (id int, err error) {
 }
 
 // OnlyXID is like OnlyID, but panics if an error occurs.
-func (rq *RecipeQuery) OnlyXID(ctx context.Context) int {
+func (rq *RecipeQuery) OnlyXID(ctx context.Context) int64 {
 	id, err := rq.OnlyID(ctx)
 	if err != nil {
 		panic(err)
@@ -176,8 +176,8 @@ func (rq *RecipeQuery) AllX(ctx context.Context) []*Recipe {
 }
 
 // IDs executes the query and returns a list of Recipe ids.
-func (rq *RecipeQuery) IDs(ctx context.Context) ([]int, error) {
-	var ids []int
+func (rq *RecipeQuery) IDs(ctx context.Context) ([]int64, error) {
+	var ids []int64
 	if err := rq.Select(recipe.FieldID).Scan(ctx, &ids); err != nil {
 		return nil, err
 	}
@@ -185,7 +185,7 @@ func (rq *RecipeQuery) IDs(ctx context.Context) ([]int, error) {
 }
 
 // IDsX is like IDs, but panics if an error occurs.
-func (rq *RecipeQuery) IDsX(ctx context.Context) []int {
+func (rq *RecipeQuery) IDsX(ctx context.Context) []int64 {
 	ids, err := rq.IDs(ctx)
 	if err != nil {
 		panic(err)
@@ -319,14 +319,14 @@ func (rq *RecipeQuery) sqlAll(ctx context.Context) ([]*Recipe, error) {
 
 	if query := rq.withIngredients; query != nil {
 		fks := make([]driver.Value, 0, len(nodes))
-		ids := make(map[int]*Recipe, len(nodes))
+		ids := make(map[int64]*Recipe, len(nodes))
 		for _, node := range nodes {
 			ids[node.ID] = node
 			fks = append(fks, node.ID)
 		}
 		var (
-			edgeids []int
-			edges   = make(map[int][]*Recipe)
+			edgeids []int64
+			edges   = make(map[int64][]*Recipe)
 		)
 		_spec := &sqlgraph.EdgeQuerySpec{
 			Edge: &sqlgraph.EdgeSpec{
@@ -350,8 +350,8 @@ func (rq *RecipeQuery) sqlAll(ctx context.Context) ([]*Recipe, error) {
 				if !ok || ein == nil {
 					return fmt.Errorf("unexpected id value for edge-in")
 				}
-				outValue := int(eout.Int64)
-				inValue := int(ein.Int64)
+				outValue := eout.Int64
+				inValue := ein.Int64
 				node, ok := ids[outValue]
 				if !ok {
 					return fmt.Errorf("unexpected node id in edges: %v", outValue)
@@ -402,7 +402,7 @@ func (rq *RecipeQuery) querySpec() *sqlgraph.QuerySpec {
 			Table:   recipe.Table,
 			Columns: recipe.Columns,
 			ID: &sqlgraph.FieldSpec{
-				Type:   field.TypeInt,
+				Type:   field.TypeInt64,
 				Column: recipe.FieldID,
 			},
 		},

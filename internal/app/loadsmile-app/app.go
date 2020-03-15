@@ -32,9 +32,7 @@ import (
 	"github.com/prasetyowira/loadsmile/internal/app/loadsmile-app/lunch/lunchdriver"
 )
 
-const todoTopic = "todo"
-
-// InitializeApp initializes a new HTTP and a new gRPC application.
+// InitializeApp initializes a new HTTP application.
 func InitializeApp(
 	httpRouter *mux.Router,
 	db *sql.DB,
@@ -88,8 +86,6 @@ func InitializeApp(
 			httpRouter.PathPrefix("").Subrouter(),
 			kitxhttp.ServerOptions(httpServerOptions),
 		)
-
-		// httpRouter.PathPrefix("/graphql").Handler(lunchdriver.MakeGraphQLHandler(endpoints, errorHandler))
 	}
 
 	httpRouter.PathPrefix("/httpbin").Handler(http.StripPrefix(

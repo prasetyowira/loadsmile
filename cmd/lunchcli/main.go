@@ -6,16 +6,16 @@ import (
 
 	"github.com/spf13/cobra"
 
-	"github.com/prasetyowira/loadsmile/internal/app/todocli"
+	"github.com/prasetyowira/loadsmile/internal/app/lunchcli"
 )
 
 func main() {
 	rootCmd := &cobra.Command{
-		Use:   "todocli",
-		Short: "TODO CLI manages TODOs.",
+		Use:   "lunchcli",
+		Short: "Lunch CLI manages Recipes and Ingredients.",
 	}
 
-	todocli.Configure(rootCmd)
+	lunchcli.Configure(rootCmd)
 
 	if err := rootCmd.Execute(); err != nil {
 		fmt.Println(err)
